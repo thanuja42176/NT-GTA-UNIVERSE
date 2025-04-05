@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA Universe | Personal Brand</title>
+    <!-- Add proper Tailwind CSS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <!-- If the script approach doesn't work, we'll use the CSS CDN as fallback -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Staatliches&display=swap');
+
+        :root {
+            --primary: #f9ca24;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --dark: #1a1a1a;
+            --light: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        .title-font {
+            font-family: 'Staatliches', cursive;
+            letter-spacing: 1px;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1920/1080') center/cover no-repeat;
+            height: 100vh;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .game-card {
+            background: linear-gradient(145deg, #222222, #333333);
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 24px;
+            width: 2px;
+            height: calc(100% - 16px);
+            background-color: var(--primary);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #e0b820;
+            transform: translateY(-2px);
+        }
+
+        .highlight {
+            color: var(--primary);
+        }
+
+        .accent {
+            color: var(--accent);
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #2d3436, #2c3e50);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animated scroll arrow */
+        .scroll-down {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Parallax effect */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Custom cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(249, 202, 36, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+        }
+
+        /* Scroll progress indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background-color: var(--primary);
+            width: 0;
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        /* Animated background */
+        .animated-bg {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, transparent 0%, transparent 25%, rgba(249, 202, 36, 0.1) 25%, rgba(249, 202, 36, 0.1) 50%, transparent 50%, transparent 75%, rgba(249, 202, 36, 0.1) 75%, rgba(249, 202, 36, 0.1) 100%);
+            background-size: 20px 20px;
+            z-index: -1;
+            animation: bgAnimation 15s linear infinite;
+        }
+
+        @keyframes bgAnimation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Ensure colored text works with Tailwind */
+        .text-yellow-400 {
+            color: #fbbf24;
+        }
+        
+        .text-white {
+            color: #ffffff;
+        }
+        
+        .bg-yellow-400 {
+            background-color: #fbbf24;
+        }
+        
+        .bg-gray-800 {
+            background-color: #1f2937;
+        }
+        
+        .bg-gray-900 {
+            background-color: #111827;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom cursor -->
+    <div class="custom-cursor hidden md:block"></div>
+    
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-opacity-90 bg-gray-900 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="text-2xl font-bold title-font text-white">GTA<span class="highlight">Universe</span></a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="nav-link text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#evolution" class="nav-link text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Evolution</a>
+                        <a href="#gameplay" class="nav-link text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Gameplay</a>
+                        <a href="#impact" class="nav-link text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Impact</a>
+                        <a href="#legacy" class="nav-link text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Legacy</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" id="mobile-menu-button" class="text-gray-400 hover:text-white focus:outline-none">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="hidden md:hidden bg-gray-900 bg-opacity-95" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-white hover:text-yellow-300 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#evolution" class="text-white hover:text-yellow-300 block px-3 py-2 rounded-md text-base font-medium">Evolution</a>
+                <a href="#gameplay" class="text-white hover:text-yellow-300 block px-3 py-2 rounded-md text-base font-medium">Gameplay</a>
+                <a href="#impact" class="text-white hover:text-yellow-300 block px-3 py-2 rounded-md text-base font-medium">Impact</a>
+                <a href="#legacy" class="text-white hover:text-yellow-300 block px-3 py-2 rounded-md text-base font-medium">Legacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section flex items-center justify-center">
+        <div class="text-center px-4">
+            <h1 class="text-5xl md:text-7xl font-bold title-font mb-4"><span class="highlight">GRAND THEFT AUTO</span>:</h1>
+            <h2 class="text-3xl md:text-5xl font-bold mb-8">A Revolutionary Force in Gaming</h2>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-12">One of the most influential and successful franchises in the history of video games.</p>
+            <button class="btn-primary px-8 py-4 rounded-md font-bold text-lg">EXPLORE THE UNIVERSE</button>
+            
+            <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-center">
+                <div class="scroll-down cursor-pointer">
+                    <span class="text-sm uppercase tracking-widest block mb-2">Scroll Down</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="stat-card p-8 text-center">
+                    <h3 class="text-4xl font-bold highlight mb-2">375M+</h3>
+                    <p class="text-xl">Copies Sold</p>
+                </div>
+                <div class="stat-card p-8 text-center">
+                    <h3 class="text-4xl font-bold highlight mb-2">1997</h3>
+                    <p class="text-xl">Year First Released</p>
+                </div>
+                <div class="stat-card p-8 text-center">
+                    <h3 class="text-4xl font-bold highlight mb-2">20+</h3>
+                    <p class="text-xl">Years of Innovation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Origin Section -->
+    <section class="py-16 bg-gray-800 animated-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold title-font mb-4">Origins & Development</h2>
+                <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <img src="/api/placeholder/600/400" alt="GTA Origins" class="rounded-lg shadow-2xl w-full">
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-bold mb-4">From Humble Beginnings</h3>
+                    <p class="mb-6">The <span class="highlight">Grand Theft Auto</span> franchise was first conceived in 1997 by Scottish video game developers David Jones and Mike Dailly at DMA Design (later known as Rockstar North). The series' debut title, <span class="italic">Grand Theft Auto</span> (1997), was a top-down, 2D open-world game.</p>
+                    <p>While the gameplay was relatively simple compared to modern standards, it introduced the core concepts that would define the series: an open world, non-linear gameplay, and the freedom to choose one's own path, often involving criminal activities such as car theft, bank robberies, and running from the police.</p>
+                    <div class="mt-8">
+                        <button class="btn-primary px-6 py-3 rounded-md font-bold">LEARN MORE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evolution Timeline Section -->
+    <section id="evolution" class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold title-font mb-4">Evolution of the Series</h2>
+                <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+            </div>
+            
+            <div class="space-y-12">
+                <div class="timeline-item pb-12">
+                    <h3 class="text-2xl font-bold mb-2"><span class="highlight">Grand Theft Auto III</span> (2001)</h3>
+                    <p class="mb-4">A pivotal title marking the transition from 2D to 3D graphics. Set in the fictional Liberty City, GTA III introduced a vast, fully realized open world for players to explore.</p>
+                    <div class="game-card p-6 rounded-lg">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/3">
+                                <img src="/api/placeholder/400/250" alt="GTA III" class="rounded-md w-full">
+                            </div>
+                            <div class="md:w-2/3">
+                                <h4 class="text-xl font-semibold mb-2">Revolutionizing Gaming</h4>
+                                <p>Players assumed the role of Claude, a mute protagonist who finds himself entangled in the criminal underworld of Liberty City. The game featured a compelling, crime-laden narrative, marking a departure from the previous title's more chaotic, mission-based structure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item pb-12">
+                    <h3 class="text-2xl font-bold mb-2"><span class="highlight">Grand Theft Auto: Vice City</span> (2002)</h3>
+                    <p class="mb-4">Set in a neon-lit, 1980s-inspired version of Miami, Vice City introduced a vibrant setting and a more character-driven story.</p>
+                    <div class="game-card p-6 rounded-lg">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/3">
+                                <img src="/api/placeholder/400/250" alt="GTA Vice City" class="rounded-md w-full">
+                            </div>
+                            <div class="md:w-2/3">
+                                <h4 class="text-xl font-semibold mb-2">The 80's Come Alive</h4>
+                                <p>Players took on the role of Tommy Vercetti, a mobster who rises to power in the criminal underworld. The game was praised for its atmosphere, radio stations featuring 80s music, and its witty, satirical take on the decade's pop culture.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item pb-12">
+                    <h3 class="text-2xl font-bold mb-2"><span class="highlight">Grand Theft Auto: San Andreas</span> (2004)</h3>
+                    <p class="mb-4">Another groundbreaking entry, expanding the series into an even more ambitious open world with three major cities.</p>
+                    <div class="game-card p-6 rounded-lg">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/3">
+                                <img src="/api/placeholder/400/250" alt="GTA San Andreas" class="rounded-md w-full">
+                            </div>
+                            <div class="md:w-2/3">
+                                <h4 class="text-xl font-semibold mb-2">Welcome to Grove Street</h4>
+                                <p>The protagonist, Carl "CJ" Johnson, returns to his home city of Los Santos after the murder of his mother. The game introduced an expansive array of features, including customizable character appearance, vehicle modifications, and an array of mini-games.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item pb-12">
+                    <h3 class="text-2xl font-bold mb-2"><span class="highlight">Grand Theft Auto IV</span> (2008)</h3>
+                    <p class="mb-4">A dramatic shift in tone and narrative style, with a focus on a more serious and realistic story.</p>
+                    <div class="game-card p-6 rounded-lg">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/3">
+                                <img src="/api/placeholder/400/250" alt="GTA IV" class="rounded-md w-full">
+                            </div>
+                            <div class="md:w-2/3">
+                                <h4 class="text-xl font-semibold mb-2">The American Dream</h4>
+                                <p>Players control Niko Bellic, an Eastern European immigrant who seeks the American Dream while navigating the grim realities of life in Liberty City. The game's focus on moral ambiguity, character development, and the consequences of crime made it a critical and commercial success.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-bold mb-2"><span class="highlight">Grand Theft Auto V</span> (2013)</h3>
+                    <p class="mb-4">The most recent mainline entry in the series, taking the franchise to new heights with three playable protagonists.</p>
+                    <div class="game-card p-6 rounded-lg">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/3">
+                                <img src="/api/placeholder/400/250" alt="GTA V" class="rounded-md w-full">
+                            </div>
+                            <div class="md:w-2/3">
+                                <h4 class="text-xl font-semibold mb-2">Three Lives Intertwined</h4>
+                                <p>Set in the fictional state of San Andreas once again, the game introduced a new level of sophistication with three playable protagonists—Michael De Santa, Trevor Philips, and Franklin Clinton—each with their own distinct storylines that intertwine.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gameplay Section -->
+    <section id="gameplay" class="py-16 bg-gray-800 parallax" style="background-image: url('/api/placeholder/1920/1080')">
+        <div class="bg-black bg-opacity-80 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold title-font mb-4">Gameplay Mechanics</h2>
+                    <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-900 bg-opacity-90 p-8 rounded-lg transform transition-all hover:scale-105">
+                        <div class="text-yellow-400 text-4xl mb-4">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Open World</h3>
+                        <p>The GTA series is known for its vast, intricately detailed open worlds that allow players to explore and interact with a living, breathing environment.</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 bg-opacity-90 p-8 rounded-lg transform transition-all hover:scale-105">
+                        <div class="text-yellow-400 text-4xl mb-4">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Mission Structure</h3>
+                        <p>Players progress through a narrative by completing missions, which often involve driving, shooting, stealth, and other varied gameplay elements.</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 bg-opacity-90 p-8 rounded-lg transform transition-all hover:scale-105">
+                        <div class="text-yellow-400 text-4xl mb-4">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Vehicle Variety</h3>
+                        <p>From sports cars to helicopters, the series offers a wide array of vehicles to steal, customize, and use throughout the game world.</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 bg-opacity-90 p-8 rounded-lg transform transition-all hover:scale-105">
+                        <div class="text-yellow-400 text-4xl mb-4">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Character Development</h3>
+                        <p>The series has evolved to include deep character progression, allowing players to customize their characters and develop various skills.</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 bg-opacity-90 p-8 rounded-lg transform transition-all hover:scale-105">
+                        <div class="text-yellow-400 text-4xl mb-4">
+                            <i class="fas fa-broadcast-tower"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Radio Stations</h3>
+                        <p>One of the most iconic features, GTA's radio stations provide a soundtrack to your adventures with various genres, talk shows, and satirical advertisements.</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 bg-opacity-90 p-8 rounded-lg transform transition-all hover:scale-105">
+                        <div class="text-yellow-400 text-4xl mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">GTA Online</h3>
+                        <p>With GTA V, the series introduced a robust online multiplayer experience, allowing players to collaborate and compete in a shared world.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cultural Impact Section -->
+    <section id="impact" class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold title-font mb-4">Cultural Impact & Controversy</h2>
+                <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:w-1/2 order-2 md:order-1">
+                    <h3 class="text-2xl font-bold mb-4">A Cultural Phenomenon</h3>
+                    <p class="mb-6">Throughout its history, the Grand Theft Auto series has been the subject of significant controversy, particularly due to its violent content, mature themes, and depiction of criminal activities.</p>
+                    <p class="mb-6">Despite the criticism, GTA has had a profound cultural impact. It has become a staple of gaming culture, influencing not only other video games but also the wider entertainment industry.</p>
+                    <p>The GTA series' ability to blend entertainment with social commentary has made it a reflection of contemporary society, pushing the boundaries of what video games can achieve in terms of storytelling and cultural relevance.</p>
+                </div>
+                <div class="md:w-1/2 order-1 md:order-2">
+                    <img src="/api/placeholder/600/400" alt="GTA Cultural Impact" class="rounded-lg shadow-2xl w-full">
+                </div>
+            </div>
+            
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-bold mb-4">Social Commentary</h4>
+                    <p>The GTA series is known for its satirical take on American culture, politics, and society. Through its radio stations, in-game advertisements, and mission narratives, the series offers a biting critique of consumerism, corruption, and media sensationalism.</p>
+                </div>
+                <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-bold mb-4">Media Controversy</h4>
+                    <p>The series has frequently been at the center of debates about violence in video games. Critics argue that the game's open-world nature and criminal themes could encourage antisocial behavior, while defenders point to the mature rating and the game's role as an artistic medium.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legacy Section -->
+    <section id="legacy" class="py-16 bg-gray-800 animated-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold title-font mb-4">Legacy & Future</h2>
+                <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+            </div>
+            
+            <div class="mb-12">
+                <p class="text-xl text-center max-w-4xl mx-auto">The Grand Theft Auto franchise has firmly established itself as one of the most successful and iconic video game series of all time. As of 2023, the series has sold over 375 million copies worldwide, making it one of the highest-selling video game franchises in history.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="bg-gray-900 p-8 rounded-lg shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Unprecedented Longevity</h3>
+                    <p class="mb-6">GTA V alone has become a cultural phenomenon, with its online multiplayer mode still drawing millions of players even years after its release. The game's continued updates and expansions have kept it relevant in an industry where games typically have much shorter lifespans.</p>
+                    <div class="flex justify-center">
+                        <img src="/api/placeholder/400/250" alt="GTA Online" class="rounded-md">
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 p-8 rounded-lg shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Looking to the Future</h3>
+                    <p class="mb-6">As technology continues to advance, fans eagerly await the next installment in the series. The question of whether the franchise will evolve to embrace new technologies, such as virtual reality or AI-
